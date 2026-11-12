@@ -1,0 +1,10 @@
+*.pdf
+!figures/*.pdf
+*.tex
+!figures/*.tex
+!_extensions/**/*.tex
+*.spl
+*.log
+*.aux
+/.quarto/
+*_files/

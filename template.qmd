@@ -1,0 +1,129 @@
+---
+title: 'A Sample Paper for the Quarto Paper Templates'
+author:
+  - name: Jane Doe
+    affiliations:
+      - name: Example University
+        department: Department of Electrical Engineering
+        city: Example City
+        country: Country
+    email: jane.doe@example.org
+    orcid: 0000-0000-0000-0000
+    attributes:
+      corresponding: true
+    membership: "Member, IEEE"
+    photo: figures/photo-placeholder.pdf
+    bio: |
+      received the M.Sc. and Ph.D. degrees in electrical engineering from Example University in 2010 and 2015, respectively.
+      Her research interests include the typesetting of papers with Quarto.
+  - name: John Roe
+    affiliations:
+      - name: Example Company
+        city: Other City
+        country: Country
+    membership: "Senior Member, IEEE"
+    photo: figures/photo-placeholder.pdf
+    bio: |
+      received the Dipl.-Ing. degree from Example University in 2005.
+      He is with Example Company, where he works on templates for scientific papers.
+abstract: |
+  This sample paper shows the Quarto paper templates for IEEE Transactions on Power Delivery, the IEEE Open Access Journal of Power and Energy, IEEE conferences and Electric Power Systems Research.
+  The same source renders in all four formats.
+  It contains sections, an equation, a figure, a table, citations and cross-references, so that the result can be compared with the LaTeX templates of the publishers.
+keywords: [Quarto, LaTeX, IEEEtran, elsarticle, templates]
+funding:
+  statement: "This work was funded by the Example Foundation, grant number 0000."
+## running heads of tpwrd and oajpe, even pages show "right: left"
+pageheader:
+  left: "A Sample Paper for the Quarto Paper Templates"
+  right: "Doe and Roe"
+## research highlights of epsr
+highlights:
+  - One source renders in four journal and conference formats
+  - The LaTeX classes of IEEE and Elsevier set the layout
+  - Citations and cross-references come from Quarto
+bibliography: references.bib
+csl: ieee.csl
+## render one format at a time, the formats share template.tex:
+##   quarto render template.qmd --to tpwrd-pdf
+format:
+  tpwrd-pdf:
+    output-file: template-tpwrd.pdf
+  oajpe-pdf:
+    output-file: template-oajpe.pdf
+  ieeeconf-pdf:
+    output-file: template-ieeeconf.pdf
+  epsr-pdf:
+    output-file: template-epsr.pdf
+---
+
+# Introduction {#sec-intro}
+
+Journals and conferences provide LaTeX templates that set the layout of a paper [@lamport1994].
+Writing in LaTeX directly, however, mixes content and markup, and code, figures and numbers of an analysis have to be copied into the text by hand.
+Quarto renders a Markdown source with embedded code into a PDF via LaTeX [@allaire2022], so that the analysis and the paper stay in one file.
+
+This paper is the sample of four Quarto formats that use the LaTeX classes of the publishers.
+@sec-elements shows the elements of a paper, and @sec-notes lists the points to observe.
+
+# Elements of a Paper {#sec-elements}
+
+## Equations
+
+Equations are written in LaTeX and get a label for cross-references.
+The root mean square of a signal $x(t)$ with the period $T$ is
+$$
+X_{\mathrm{RMS}} = \sqrt{\frac{1}{T} \int_0^T x^2(t) \, \mathrm{d}t} ,
+$$ {#eq-rms}
+and @eq-rms is referenced by its label.
+
+## Figures
+
+Figures are included as PDF, so that text and lines stay sharp.
+@fig-example shows a damped oscillation with its envelope.
+
+![Damped oscillation and its envelope.](figures/example.pdf){#fig-example width=100%}
+
+## Tables
+
+Tables are written as raw LaTeX in a div with a label, the caption follows the table.
+@tbl-example lists the four formats.
+
+::: {#tbl-example}
+
+```{=latex}
+\begin{tabular}{@{}ll@{}}
+\hline
+Format & Publication \\
+\hline
+\texttt{tpwrd-pdf}    & IEEE Trans. Power Delivery \\
+\texttt{oajpe-pdf}    & IEEE Open Access J. Power Energy \\
+\texttt{ieeeconf-pdf} & IEEE conferences \\
+\texttt{epsr-pdf}     & Electric Power Systems Research \\
+\hline
+\end{tabular}
+```
+
+Formats of the templates
+
+:::
+
+## Citations
+
+Citations are taken from a BibTeX file and formatted by a CSL style, here the IEEE style.
+A single source is cited as [@knuth1984], several as [@lamport1994; @knuth1984].
+
+# Notes {#sec-notes}
+
+Markdown tables are set by Pandoc as `longtable`, which does not work in two columns.
+Tables are therefore written as raw LaTeX, or with `knitr::kable(format = "latex")` in R.
+The source file has to be in the project root, since the templates read the LaTeX classes from the folder `_extensions`.
+
+# Conclusion
+
+One source renders in four formats, and the layout is set by the classes of the publishers.
+
+# References {-}
+
+::: {#refs}
+:::

@@ -1,0 +1,77 @@
+% bare_jrnl_new_sample4.tex of the IEEEtran LaTeX template (IEEE author kit) as Quarto template:
+% the example content of bare_jrnl_new_sample4.tex is replaced by $variables$ from the .qmd
+% the class is read from the extension folder (the .qmd is in the project root),
+% not from TeX Live, which has an older IEEEtran.cls
+% left out of the kit: cite and subfig (citations come from citeproc, no subfigures)
+\documentclass[lettersize,journal]{_extensions/tpwrd/IEEEtran}
+\usepackage{amsmath,amsfonts,amssymb}
+\usepackage{algorithmic}
+\usepackage{algorithm}
+\usepackage{array}
+\usepackage{textcomp}
+\usepackage{stfloats}
+\usepackage{url}
+\usepackage{verbatim}
+\usepackage{graphicx}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={$title-meta$}, pdfauthor={$for(by-author)$$it.name.literal$$sep$, $endfor$}}
+\hyphenation{op-tical net-works semi-conduc-tor IEEE-Xplore}
+
+% Quarto loads the caption package (in the line below) unless it is loaded already,
+% marked as loaded, the captions of the class stay (Fig. 1. and TABLE I),
+% subcaption needs the real caption package and is marked as loaded too (no subfigures)
+\makeatletter
+\@namedef{ver@caption.sty}{}
+\@namedef{ver@subcaption.sty}{}
+\makeatother
+
+% what Pandoc needs: tables, figures, citations, lists, include-in-header of the .qmd
+$pandoc.tex()$
+
+\begin{document}
+
+\title{$title$}
+
+% "Name,~\IEEEmembership{Member,~IEEE,} ... and~Name" as in the kit
+\author{$if(by-author/allbutlast)$$for(by-author/allbutlast)$$it.name.literal$$if(it.metadata.membership)$,~\IEEEmembership{$it.metadata.membership$,}$else$,$endif$ $endfor$and~$endif$$for(by-author/last)$$it.name.literal$$if(it.metadata.membership)$,~\IEEEmembership{$it.metadata.membership$}$endif$$endfor$%
+\thanks{$for(funding)$$for(funding.statement)$$funding.statement$$endfor$$endfor$$for(by-author)$$if(it.attributes.corresponding)$ (Corresponding author: $it.name.literal$.)$endif$$endfor$}%
+$for(by-author)$
+\thanks{$it.name.literal$ is with $for(it.affiliations)$$if(it.department)$$it.department$, $endif$$it.name$$if(it.city)$, $it.city$$endif$$if(it.country)$, $it.country$$endif$$sep$, and also with $endfor$$if(it.email)$ (e-mail: $it.email$)$endif$.}%
+$endfor$
+}
+
+% The paper headers
+\markboth{$pageheader.left$}{$pageheader.right$}
+
+\maketitle
+
+\begin{abstract}
+$abstract$
+\end{abstract}
+
+\begin{IEEEkeywords}
+$for(keywords)$$keywords$$sep$, $endfor$
+\end{IEEEkeywords}
+
+$body$
+
+% biographies, with photo if one is given
+$for(by-author)$
+$if(it.metadata.bio)$
+$if(it.metadata.photo)$
+\begin{IEEEbiography}[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{$it.metadata.photo$}}]{$it.name.literal$}
+$it.metadata.bio$
+\end{IEEEbiography}
+$else$
+\begin{IEEEbiographynophoto}{$it.name.literal$}
+$it.metadata.bio$
+\end{IEEEbiographynophoto}
+$endif$
+$endif$
+$endfor$
+
+\vfill
+
+\end{document}

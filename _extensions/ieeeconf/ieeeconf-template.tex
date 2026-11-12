@@ -1,0 +1,59 @@
+% IEEE-conference-template-062824.tex of the IEEE conference template as Quarto template:
+% the example content is replaced by $variables$ from the .qmd
+% the class is read from the extension folder (the .qmd is in the project root)
+% left out of the template: cite (citations come from citeproc)
+\documentclass[conference]{_extensions/ieeeconf/IEEEtran}
+% only needed for the funding in the first footnote (\thanks in \title)
+\IEEEoverridecommandlockouts
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx}
+\usepackage{textcomp}
+\usepackage{xcolor}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage[hidelinks]{hyperref}
+\hypersetup{pdftitle={$title-meta$}, pdfauthor={$for(by-author)$$it.name.literal$$sep$, $endfor$}}
+
+% Quarto loads the caption package (in the line below) unless it is loaded already,
+% marked as loaded, the captions of the class stay (Fig. 1. and TABLE I),
+% subcaption needs the real caption package and is marked as loaded too (no subfigures)
+\makeatletter
+\@namedef{ver@caption.sty}{}
+\@namedef{ver@subcaption.sty}{}
+\makeatother
+
+% what Pandoc needs: tables, figures, citations, lists, include-in-header of the .qmd
+$pandoc.tex()$
+
+\begin{document}
+
+\title{$title$$if(funding)$
+\thanks{$for(funding)$$for(funding.statement)$$funding.statement$$endfor$$endfor$}$endif$}
+
+% one author block per author: name, department, organization, city and country, e-mail or ORCID
+\author{$for(by-author)$\IEEEauthorblockN{$it.name.literal$}
+\IEEEauthorblockA{$for(it.affiliations)$$if(it.department)$\textit{$it.department$} \\
+$endif$\textit{$it.name$}\\
+$if(it.city)$$it.city$, $endif$$it.country$$sep$ \\
+$endfor$$if(it.email)$ \\
+$it.email$$elseif(it.orcid)$ \\
+ORCID: $it.orcid$$endif$}$sep$
+\and
+$endfor$}
+
+\maketitle
+
+\begin{abstract}
+$abstract$
+\end{abstract}
+
+$if(keywords)$
+\begin{IEEEkeywords}
+$for(keywords)$$keywords$$sep$, $endfor$
+\end{IEEEkeywords}
+$endif$
+
+$body$
+
+\end{document}

@@ -1,0 +1,82 @@
+% main.tex of the IEEE PES OAJPE LaTeX template (author kit) as Quarto template:
+% the example content of main.tex is replaced by $variables$ from the .qmd
+% class and logo are read from the extension folder (the .qmd is in the project root)
+\documentclass{_extensions/oajpe/ieeeoj}
+\usepackage{amsmath,amssymb,amsfonts}
+\usepackage{algorithmic}
+\usepackage{graphicx,color}
+\usepackage{textcomp}
+\usepackage[T1]{fontenc}
+\usepackage[utf8]{inputenc}
+\usepackage{hyperref}
+\hypersetup{pdftitle={$title-meta$}, pdfauthor={$for(by-author)$$it.name.literal$$sep$, $endfor$}}
+\usepackage{letltxmacro}
+\LetLtxMacro\ojurl\url
+\renewcommand{\url}[1]{\underline{\ojurl{#1}}}
+\def\BibTeX{{\rm B\kern-.05em{\sc i\kern-.025em b}\kern-.08em
+    T\kern-.1667em\lower.7ex\hbox{E}\kern-.125emX}}
+\AtBeginDocument{\definecolor{green}{cmyk}{1,0,1,0.5}}
+% PES logo of the author kit, not distributed with this extension: copy it to _extensions/oajpe/PES-logo.png
+\def\OJlogo{\IfFileExists{_extensions/oajpe/PES-logo.png}{\vspace{-14pt}\includegraphics[height=28pt]{_extensions/oajpe/PES-logo.png}}{}}
+% title margins 3pc instead of 4pc (class), so that the title takes two lines
+\def\titlefont{\fontfamily{\sfdefault}\fontsize{22}{24}\selectfont\bfseries\leftskip3pc plus1fill\rightskip3pc plus1fill}
+
+% what Pandoc needs: tables, figures, citations, lists, include-in-header of the .qmd
+$pandoc.tex()$
+
+% Quarto loads the caption package (in the line above), which replaces the
+% captions of the class, these formats set them with the class macros again
+\makeatletter
+\DeclareCaptionFormat{ojfigure}{\textcolor{green}{\figcapnumfont#1.}\space{\figcapfont#3\par}}
+\DeclareCaptionFormat{ojtable}{\textcolor{green}{\tablecapnumfont#1.}\space{\tablecapfont #3}}
+\makeatother
+\captionsetup[figure]{format=ojfigure,justification=raggedright,singlelinecheck=false}
+\captionsetup[table]{format=ojtable,justification=raggedright,singlelinecheck=false}
+
+\begin{document}
+$if(doiinfo)$
+\doiinfo{$doiinfo$}
+$endif$
+
+\title{$title$}
+
+% one \author per author, the class joins them with commas and "AND",
+% \mbox: lines break only between authors, not within a name
+$for(by-author)$
+\author{\mbox{\MakeUppercase{$it.name.literal$}\affilmark{$for(it.affiliations)$$it.number$$sep$,$endfor$}$if(it.metadata.membership)$ (\IEEEmembership{$it.metadata.membership$})$endif$}}
+$endfor$
+$for(by-affiliation)$
+\affil{$if(it.department)$$it.department$, $endif$$it.name$$if(it.city)$, $it.city$$endif$$if(it.country)$, $it.country$$endif$}
+$endfor$
+$for(by-author)$
+$if(it.attributes.corresponding)$
+\corresp{CORRESPONDING AUTHOR: $it.name.literal$$if(it.email)$ (e-mail: $it.email$)$endif$.}
+$endif$
+$endfor$
+$if(funding)$
+\authornote{$for(funding)$$for(funding.statement)$$funding.statement$$endfor$$endfor$}
+$endif$
+\markboth{$pageheader.left$}{$pageheader.right$}
+
+\begin{abstract}
+$abstract$
+\end{abstract}
+
+\begin{IEEEkeywords}
+$for(keywords)$$keywords$$sep$, $endfor$
+\end{IEEEkeywords}
+
+\maketitle
+
+$body$
+
+% biographies, the class strips every space after the name, hence the kern
+$for(by-author)$
+$if(it.metadata.bio)$
+\begin{IEEEbiography}$if(it.metadata.photo)$[{\includegraphics[width=1in,height=1.25in,clip,keepaspectratio]{$it.metadata.photo$}}]$endif${\MakeUppercase{$it.name.literal$}\kern0.3em}
+$it.metadata.bio$
+\end{IEEEbiography}
+$endif$
+$endfor$
+
+\end{document}

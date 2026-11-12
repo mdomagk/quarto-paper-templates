@@ -1,0 +1,78 @@
+% elsarticle-template-num.tex of the Elsevier elsarticle bundle with epsr.sty
+% (Electric Power Systems Research) as Quarto template:
+% the example content is replaced by $variables$ from the .qmd
+% class and style are read from the extension folder (the .qmd is in the project root),
+% elsarticle.cls is generated from elsarticle.dtx (latex elsarticle.ins)
+% nonatbib: citations and references are set by citeproc (Pandoc), natbib breaks them
+\documentclass[$if(classoption)$$for(classoption)$$classoption$$sep$,$endfor$$else$preprint,12pt$endif$,nonatbib]{_extensions/epsr/elsarticle}
+\usepackage{_extensions/epsr/epsr}
+\usepackage{amssymb}
+\usepackage{amsmath}
+$if(linenumbers)$
+\usepackage{lineno}
+$endif$
+
+\journal{$if(journal)$$journal$$else$Electric Power Systems Research$endif$}
+
+% what Pandoc needs: tables, figures, citations, lists, include-in-header of the .qmd
+$pandoc.tex()$
+% hyperref last, for the links of citations and cross-references
+\usepackage{hyperref}
+\hypersetup{pdftitle={$title-meta$}, pdfauthor={$for(by-author)$$it.name.literal$$sep$, $endfor$}, hidelinks}
+
+\begin{document}
+
+\begin{frontmatter}
+
+\title{$title$$if(funding)$\tnoteref{fund}$endif$}
+$if(funding)$
+\tnotetext[fund]{$for(funding)$$for(funding.statement)$$funding.statement$$endfor$$endfor$}
+$endif$
+
+% one \author per author with the numbers of the affiliations,
+% corresponding author with \corref and e-mail address with \ead
+$for(by-author)$
+\author[$for(it.affiliations)$$it.number$$sep$,$endfor$]{$it.name.literal$$if(it.attributes.corresponding)$\corref{cor1}$endif$}
+$if(it.attributes.corresponding)$
+\cortext[cor1]{Corresponding author}
+$endif$
+$if(it.email)$
+\ead{$it.email$}
+$endif$
+$endfor$
+
+$for(by-affiliation)$
+\affiliation[$it.number$]{organization={$if(it.department)$$it.department$, $endif$$it.name$},$if(it.address)$ addressline={$it.address$},$endif$$if(it.city)$ city={$it.city$},$endif$$if(it.postal-code)$ postcode={$it.postal-code$},$endif$$if(it.region)$ state={$it.region$},$endif$ country={$it.country$}}
+$endfor$
+
+\begin{abstract}
+$abstract$
+\end{abstract}
+
+$if(graphical-abstract)$
+\begin{graphicalabstract}
+\includegraphics[width=\textwidth]{$graphical-abstract$}
+\end{graphicalabstract}
+$endif$
+
+$if(highlights)$
+\begin{highlights}
+$for(highlights)$
+\item $highlights$
+$endfor$
+\end{highlights}
+$endif$
+
+\begin{keyword}
+$for(keywords)$$keywords$$sep$ \sep $endfor$
+\end{keyword}
+
+\end{frontmatter}
+
+$if(linenumbers)$
+\linenumbers
+$endif$
+
+$body$
+
+\end{document}

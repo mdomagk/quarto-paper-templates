@@ -1,0 +1,23 @@
+title: IEEE Conference Paper (ieeeconf)
+author: Max Domagk
+version: 1.0.0
+quarto-required: ">=1.4.0"
+## ieeeconf-template.tex is IEEE-conference-template-062824.tex of the IEEE conference template with $variables$,
+## IEEEtran.cls is the one of the conference template (differs from the one in tpwrd)
+contributes:
+  formats:
+    pdf:
+      template: ieeeconf-template.tex
+      pdf-engine: pdflatex
+      number-sections: true
+      crossref:
+        chapters: false
+        fig-title: Fig.
+        tbl-title: TABLE
+        fig-prefix: Fig.
+        eq-prefix: ""
+      cite-method: citeproc
+      link-citations: true
+      execute:
+        echo: false
+        warning: false

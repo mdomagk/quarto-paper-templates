@@ -1,0 +1,25 @@
+title: IEEE Open Access Journal of Power and Energy (OAJPE)
+author: Max Domagk
+version: 1.0.0
+quarto-required: ">=1.4.0"
+## oajpe-template.tex is main.tex of the IEEE PES OAJPE LaTeX template with $variables$
+contributes:
+  formats:
+    pdf:
+      template: oajpe-template.tex
+      pdf-engine: pdflatex
+      number-sections: true
+      ## headings of level 1 and 2 in capitals as in main.tex
+      filters:
+        - oajpe.lua
+      crossref:
+        chapters: false
+        fig-title: FIGURE
+        tbl-title: TABLE
+        fig-prefix: Fig.
+        eq-prefix: ""
+      cite-method: citeproc
+      link-citations: true
+      execute:
+        echo: false
+        warning: false
